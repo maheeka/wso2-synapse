@@ -20,6 +20,7 @@ package org.apache.synapse.aspects.flow.statistics.publishing;
 
 import org.apache.synapse.aspects.flow.statistics.data.raw.StatisticsLog;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,20 +32,22 @@ public class PublishingEvent {
 
 	private long startTime;
 	private long endTime;
-
 	private long duration;
+
 	private String beforePayload;
-
 	private String afterPayload;
-	private Map contextPropertyMap;
 
+	private Map contextPropertyMap;
 	private Map transportPropertyMap;
+
 	private Integer[] children;
 
 	private String entryPoint;
 	private Integer entryPointHashcode;
 	private int faultCount;
 	private Integer hashCode;
+
+	public  PublishingEvent(){}
 
 	public PublishingEvent(StatisticsLog statisticsLog, String entryPoint, Integer entryPointHashcode) {
 		this.componentType = statisticsLog.getComponentTypeToString();
@@ -226,5 +229,41 @@ public class PublishingEvent {
 
 		}
 		return copy;
+	}
+
+	public Map<String, Object> getObjectAsMap() {
+		Map<String, Object> objectMap = new HashMap<String, Object>();
+
+		objectMap.put("componentType", this.componentType);
+		objectMap.put("componentName", this.componentName);
+		objectMap.put("componentId", this.componentId);
+
+		objectMap.put("startTime", this.startTime);
+		objectMap.put("endTime", this.endTime);
+		objectMap.put("duration", this.duration);
+
+		objectMap.put("beforePayload", this.beforePayload);
+		objectMap.put("afterPayload", this.afterPayload);
+
+		if (this.contextPropertyMap == null) {
+			objectMap.put("contextPropertyMap", null);
+		} else {
+			objectMap.put("contextPropertyMap", this.contextPropertyMap.toString());
+		}
+
+		if (this.transportPropertyMap == null) {
+			objectMap.put("transportPropertyMap", null);
+		} else {
+			objectMap.put("transportPropertyMap", this.transportPropertyMap.toString());
+		}
+
+		objectMap.put("children", Arrays.toString(this.children));
+
+		objectMap.put("entryPoint", this.entryPoint);
+		objectMap.put("entryPointHashcode", String.valueOf(this.entryPointHashcode));
+		objectMap.put("faultCount", this.faultCount);
+		objectMap.put("hashCode", String.valueOf(this.hashCode));
+
+		return objectMap;
 	}
 }
