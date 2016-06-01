@@ -86,7 +86,7 @@ public class TemplateContext {
                 		//String evaluatedPath ="{//m0:getQuote/m0:request}";
                 		return expression.evalutePropertyExpression(synCtx);
                 	}
-                    return expression.getExpression();
+                    return expression.getExpression().stringValueOf(synCtx);
                 } else {
                     return expression.evaluateValue(synCtx);
                 }
